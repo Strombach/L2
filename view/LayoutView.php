@@ -3,7 +3,14 @@
 
 class LayoutView {
   
-  public function render($isLoggedIn, $v, $dtv) {
+  public function render($isLoggedIn, $v, $dtv, $link) {
+
+    if($link == 'Back to login') {
+      $href = '?';
+    } else {
+      $href = '?register';
+    }
+
     echo '<!DOCTYPE html>
       <html>
         <head>
@@ -12,7 +19,7 @@ class LayoutView {
         </head>
         <body>
           <h1>Assignment 2</h1>
-          <a href="?register">Register a new user</a>
+          <a href="' . $href . '">'. $link .'</a>
           ' . $this->renderIsLoggedIn($isLoggedIn) . '
           
           <div class="container">

@@ -16,13 +16,13 @@ class RegisterView {
 
 
   private function generateRegisterFormHTML($message) {
-    return '
-    <a href="?">Back to login</a><h2>Not logged in</h2>    <div class="container" >
+    return ' 
+    <div class="container" >
     <h2>Register new user</h2>
     <form action="?register" method="post" enctype="multipart/form-data">
       <fieldset>
       <legend>Register a new user - Write username and password</legend>
-        <p id="' . self::$messageId . '"></p>
+        <p id="' . self::$messageId . '">' . $message . '</p>
         <label for="' . self::$name . '" >Username :</label>
         <input type="text" size="20" name="' . self::$name . '" id="' . self::$name . '" value="" />
         <br/>
@@ -35,6 +35,7 @@ class RegisterView {
         <input id="submit" type="submit" name="DoRegistration"  value="Register" />
         <br/>
       </fieldset>
-    </form>';
+    </form>
+    </div';
 	}
 }

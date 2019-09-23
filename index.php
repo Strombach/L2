@@ -5,6 +5,7 @@ require_once('view/LoginView.php');
 require_once('view/DateTimeView.php');
 require_once('view/LayoutView.php');
 require_once('view/RegisterView.php');
+require_once('controller/testController.php');
 
 //MAKE SURE ERRORS ARE SHOWN... MIGHT WANT TO TURN THIS OFF ON A PUBLIC SERVER
 error_reporting(E_ALL);
@@ -15,10 +16,16 @@ $v = new LoginView();
 $dtv = new DateTimeView();
 $lv = new LayoutView();
 $rv = new RegisterView();
+$tc = new testController();
+$btl = 'Back to login';
+$rnu = 'Register a new user';
+
 
 
 if (isset ($_GET["register"])) {
-  $lv->render(false, $rv, $dtv);
+  $lv->render(false, $rv, $dtv, $btl);
+  $tc->testing();
 } else {
-  $lv->render(false, $v, $dtv);
+  $lv->render(false, $v, $dtv, $rnu);
+  $tc->testing();
 };
