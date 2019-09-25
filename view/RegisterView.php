@@ -36,6 +36,6 @@ class RegisterView {
         <br/>
       </fieldset>
     </form>
-    </div';
+    </div>';
 	}
 }
