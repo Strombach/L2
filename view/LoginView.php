@@ -20,7 +20,11 @@ class LoginView {
 	 * @return  void BUT writes to standard output and cookies!
 	 */
 	public function response() {
-		$message = '';
+    $message = '';
+
+    if(isset($_POST[self::$login]) && !$this->userFilledInUserName()) {
+      $message = 'Username is missing';
+    }
 		
 		$response = $this->generateLoginFormHTML($message);
 		//$response .= $this->generateLogoutButtonHTML($message);
@@ -77,5 +81,11 @@ class LoginView {
   public function getUsername() {
     return $this->getRequestUserName();
   }
-	
+
+  public function userFilledInUserName () {
+    if(!empty($_POST[self::$name])) {
+      return true;
+    }
+    return false;
+  }
 }

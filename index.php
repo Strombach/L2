@@ -15,17 +15,15 @@ ini_set('display_errors', 'On');
 $v = new LoginView();
 $dtv = new DateTimeView();
 $lv = new LayoutView();
-$tc = new LoginController($v);
+$lc = new LoginController($v);
 $btl = 'Back to login';
 $rnu = 'Register a new user';
-
-
 
 if (isset ($_GET["register"])) {
   $rv = new RegisterView();
   $lv->render(false, $rv, $dtv, $btl);
-  $tc->testing();
+  $lc->testing();
 } else {
   $lv->render(false, $v, $dtv, $rnu);
-  $tc->testing();
+  $lc->testing();
 };

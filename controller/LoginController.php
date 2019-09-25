@@ -10,7 +10,10 @@ class LoginController {
 
   public function testing () {
     if(isset($_POST["LoginView::Login"])) {
-      echo $this->lv->getUserName();
+      $username = $this->lv->getUserName();
+      if($username == 'Admin') {
+        echo $username;
+      }
     }
   }
 }
