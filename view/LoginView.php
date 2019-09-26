@@ -1,6 +1,7 @@
 <?php
 
 require_once('model/User.php');
+require_once('model/UserStorage.php');
 
 class LoginView {
 	private static $login = 'LoginView::Login';
