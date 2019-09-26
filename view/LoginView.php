@@ -88,9 +88,17 @@ class LoginView {
     //RETURN REQUEST VARIABLE: USERNAME
     return $_POST[self::$name];
   }
+
+  private function getRequestPassword() {
+    return $_POST[self::$password];
+  }
   
   public function getUsername() {
     return $this->getRequestUserName();
+  }
+
+  public function getPassword() {
+    return $this->getRequestPassword();
   }
 
   private function userWantsToLogin () {

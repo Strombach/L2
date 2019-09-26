@@ -12,9 +12,10 @@ class LoginController {
 
   public function testing () {
     if(isset($_POST["LoginView::Login"])) {
-      $username = $this->lv->getUserName();
-      if($username == 'Admin') {
-        echo $this->user->getUserName();
+      $uname = $this->lv->getUserName();
+      $pword = $this->lv->getPassword();
+      if($this->user->authentication($uname, $pword)) {
+        echo 'LoggedIN BITCH!!!!';
       }
     }
   }
