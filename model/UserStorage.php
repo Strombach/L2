@@ -1,23 +1,31 @@
 <?php
 
+namespace model;
+
 class UserStorage {
 
-  private $jsonFile;
+  private $jsonData;
   private $phpObj;
 
-  public function __construct ($json) {
-    $this->jsonFile = file_get_contents($json, true);
-    $this->phpObj = json_decode($this->jsonFile);
-    $this->findUserByUsername('adminTest1');
+  public function loadUsers ($jsonFile) {
+    $this->jsonData = file_get_contents($jsonFile, true);
+    $this->phpObj = json_decode($this->jsonData);
+    var_dump($this->phpObj[1]);
   }
 
-  public function findUserByUsername ($uname) {
-    foreach ($this->phpObj as $key => $value) {
-      if($value->username == $uname){
-        return $value;
-      } else {
-        return false;
+  private function findUserByUsername ($uname) {
+    for ($i = 0; $i < sizeof($this->phpObj); $i++) {
+      if($this->phpObj[$i]->username === $uname){
+        return $this->phpObj[$i];
       }
+    }
+  }
+
+  public function authAUser ($creds) {
+    $user = $this->findUserByUsername($creds[0]);
+
+    if($user->password == $creds[1]) {
+      echo "Logged In";
     }
   }
 }

@@ -1,8 +1,5 @@
 <?php
 
-require_once('model/User.php');
-require_once('model/UserStorage.php');
-
 class LoginView {
 	private static $login = 'LoginView::Login';
 	private static $logout = 'LoginView::Logout';
@@ -23,9 +20,9 @@ class LoginView {
 	public function response() {
     $message = '';
 
-    if($this->userWantsToLogin()) {
-      $message = $this->checkInput();
-    }
+    // if($this->userWantsToLogin()) {
+    //   $message = $this->checkInput();
+    // }
 		
 		$response = $this->generateLoginFormHTML($message);
 		//$response .= $this->generateLogoutButtonHTML($message);
@@ -90,51 +87,51 @@ class LoginView {
     return $_POST[self::$password];
   }
   
-  // public function getUsername() {
-  //   return $this->getRequestUserName();
-  // }
+  public function getUserCredentials() {
+    $uname = new \model\Username($this-> getRequestUserName());
+    $pword = new \model\Password($this-> getRequestPassword());
 
-  // public function getPassword() {
-  //   return $this->getRequestPassword();
-  // }
+    $credentials = array($uname->getUsername(), $pword->getPassword());
+    return $credentials;
+  }
 
-  private function userWantsToLogin () {
+  public function userWantsToLogin () {
     if(isset($_POST[self::$login])) {
       return true;
     }
     return false;
   }
 
-  public function userFilledInUserName () {
-    if(!empty($_POST[self::$name])) {
-      return true;
-    }
-    return false;
-  }
+  // public function userFilledInUserName () {
+  //   if(!empty($_POST[self::$name])) {
+  //     return true;
+  //   }
+  //   return false;
+  // }
 
-  public function userFilledInPassword () {
-    if(!empty($_POST[self::$password])) {
-      return true;
-    }
-    return false;
-  }
+  // public function userFilledInPassword () {
+  //   if(!empty($_POST[self::$password])) {
+  //     return true;
+  //   }
+  //   return false;
+  // }
 
-  private function checkInput () {
-    $uname = $this->getRequestUserName();
-    $pword = $this->getRequestPassword();
+  // private function checkInput () {
+  //   $uname = $this->getRequestUserName();
+  //   $pword = $this->getRequestPassword();
 
-    if($uname == '') {
-      return 'Username is missing';
-    }
+  //   if($uname == '') {
+  //     return 'Username is missing';
+  //   }
 
-    if($pword == '') {
-      return 'Password is missing';
-    }
+  //   if($pword == '') {
+  //     return 'Password is missing';
+  //   }
 
-    $user = new User('Admin', '123');
-    if(!$user->authentication($uname, $pword)) {
-      return 'Wrong name or password';
-    }
-    return 'Logged In <3';
-  }
+  //   $user = new User('Admin', '123');
+  //   if(!$user->authentication($uname, $pword)) {
+  //     return 'Wrong name or password';
+  //   }
+  //   return 'Logged In <3';
+  // }
 }
