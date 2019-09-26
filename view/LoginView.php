@@ -89,7 +89,7 @@ class LoginView {
     return $_POST[self::$name];
   }
   
-  private function getUsername() {
+  public function getUsername() {
     return $this->getRequestUserName();
   }
 
@@ -100,14 +100,14 @@ class LoginView {
     return false;
   }
 
-  private function userFilledInUserName () {
+  public function userFilledInUserName () {
     if(!empty($_POST[self::$name])) {
       return true;
     }
     return false;
   }
 
-  private function userFilledInPassword () {
+  public function userFilledInPassword () {
     if(!empty($_POST[self::$password])) {
       return true;
     }
