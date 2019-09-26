@@ -19,11 +19,10 @@ class LayoutView {
         </head>
         <body>
           <h1>Assignment 2</h1>
-          <a href="' . $href . '">'. $link .'</a>
-          ' . $this->renderIsLoggedIn($isLoggedIn) . '
+          ' . $this->renderIsLoggedIn($isLoggedIn, $link, $href) . '
           
           <div class="container">
-              ' . $v->response() . '
+              ' . $v->response($isLoggedIn) . '
               
               ' . $dtv->show() . '
           </div>
@@ -32,12 +31,14 @@ class LayoutView {
     ';
   }
   
-  private function renderIsLoggedIn($isLoggedIn) {
+  private function renderIsLoggedIn($isLoggedIn, $link, $href) {
     if ($isLoggedIn) {
       return '<h2>Logged in</h2>';
     }
     else {
-      return '<h2>Not logged in</h2>';
+      return '
+      <a href="' . $href . '">'. $link .'</a>
+      <h2>Not logged in</h2>';
     }
   }
 }

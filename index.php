@@ -27,10 +27,10 @@ $lc = new \controller\LoginController($v, $us);
 $btl = 'Back to login';
 $rnu = 'Register a new user';
 
+
 if (isset ($_GET["register"])) {
   $rv = new RegisterView();
   $lv->render(false, $rv, $dtv, $btl);
 } else {
-  $lv->render(false, $v, $dtv, $rnu);
-  $lc -> doLogin();
+  $lv->render($lc -> doLogin(), $v, $dtv, $rnu);
 };

@@ -17,15 +17,21 @@ class LoginView {
 	 *
 	 * @return  void BUT writes to standard output and cookies!
 	 */
-	public function response() {
-    $message = '';
+	public function response($isLoggedIn) {
+    $message= '';
 
-    // if($this->userWantsToLogin()) {
-    //   $message = $this->checkInput();
-    // }
-		
-		$response = $this->generateLoginFormHTML($message);
-		//$response .= $this->generateLogoutButtonHTML($message);
+    if($this->userWantsToLogin()) {
+      $message = $this->checkInput();
+    }
+    
+    $response = '';
+
+    if($isLoggedIn) {
+      $message = 'Welcome';
+      $response .= $this->generateLogoutButtonHTML($message);
+    } else {
+      $response = $this->generateLoginFormHTML($message);
+    }
 		return $response;
 	}
 
@@ -102,36 +108,17 @@ class LoginView {
     return false;
   }
 
-  // public function userFilledInUserName () {
-  //   if(!empty($_POST[self::$name])) {
-  //     return true;
-  //   }
-  //   return false;
-  // }
+  private function checkInput () {
+    $uname = $this->getRequestUserName();
+    $pword = $this->getRequestPassword();
 
-  // public function userFilledInPassword () {
-  //   if(!empty($_POST[self::$password])) {
-  //     return true;
-  //   }
-  //   return false;
-  // }
+    if($uname == '') {
+      return 'Username is missing';
+    }
 
-  // private function checkInput () {
-  //   $uname = $this->getRequestUserName();
-  //   $pword = $this->getRequestPassword();
-
-  //   if($uname == '') {
-  //     return 'Username is missing';
-  //   }
-
-  //   if($pword == '') {
-  //     return 'Password is missing';
-  //   }
-
-  //   $user = new User('Admin', '123');
-  //   if(!$user->authentication($uname, $pword)) {
-  //     return 'Wrong name or password';
-  //   }
-  //   return 'Logged In <3';
-  // }
+    if($pword == '') {
+      return 'Password is missing';
+    }
+    return '';
+  }
 }
