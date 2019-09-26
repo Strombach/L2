@@ -10,6 +10,8 @@ class LoginView {
 	private static $keep = 'LoginView::KeepMeLoggedIn';
   private static $messageId = 'LoginView::Message';	
 
+  public $aMessage = '';
+
 	/**
 	 * Create HTTP response
 	 *
@@ -18,7 +20,7 @@ class LoginView {
 	 * @return  void BUT writes to standard output and cookies!
 	 */
 	public function response($isLoggedIn) {
-    $message= '';
+    $message = $this->aMessage;
 
     if($this->userWantsToLogin()) {
       $message = $this->checkInput();

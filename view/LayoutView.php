@@ -4,13 +4,6 @@
 class LayoutView {
   
   public function render($isLoggedIn, $v, $dtv, $link) {
-
-    if($link == 'Back to login') {
-      $href = '?';
-    } else {
-      $href = '?register';
-    }
-
     echo '<!DOCTYPE html>
       <html>
         <head>
@@ -19,7 +12,8 @@ class LayoutView {
         </head>
         <body>
           <h1>Assignment 2</h1>
-          ' . $this->renderIsLoggedIn($isLoggedIn, $link, $href) . '
+          ' . $this->register ($isLoggedIn) . '
+          ' . $this->renderIsLoggedIn($isLoggedIn) . '
           
           <div class="container">
               ' . $v->response($isLoggedIn) . '
@@ -31,14 +25,22 @@ class LayoutView {
     ';
   }
   
-  private function renderIsLoggedIn($isLoggedIn, $link, $href) {
+  private function renderIsLoggedIn($isLoggedIn) {
     if ($isLoggedIn) {
       return '<h2>Logged in</h2>';
     }
     else {
-      return '
-      <a href="' . $href . '">'. $link .'</a>
-      <h2>Not logged in</h2>';
+      return '<h2>Not logged in</h2>';
+    }
+  }
+
+  private function register($isLoggedIn){
+    if (isset($_GET['register'])) {
+        return '<a href="?">Back to login</a>';
+    } else if (!$isLoggedIn) {
+        return '<a href="?register">Register a new user</a>';
+    } else {
+        return '';
     }
   }
 }
