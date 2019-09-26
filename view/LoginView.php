@@ -1,5 +1,7 @@
 <?php
 
+require_once('model/User.php');
+
 class LoginView {
 	private static $login = 'LoginView::Login';
 	private static $logout = 'LoginView::Logout';
@@ -8,9 +10,7 @@ class LoginView {
 	private static $cookieName = 'LoginView::CookieName';
 	private static $cookiePassword = 'LoginView::CookiePassword';
 	private static $keep = 'LoginView::KeepMeLoggedIn';
-	private static $messageId = 'LoginView::Message';
-
-	
+  private static $messageId = 'LoginView::Message';	
 
 	/**
 	 * Create HTTP response
@@ -22,12 +22,8 @@ class LoginView {
 	public function response() {
     $message = '';
 
-    if($this->userWantsToLogin() && !$this->userFilledInPassword()) {
-      $message = 'Password is missing';
-    }
-
-    if($this->userWantsToLogin() && !$this->userFilledInUserName()) {
-      $message = 'Username is missing';
+    if($this->userWantsToLogin()) {
+      $message = $this->checkInput();
     }
 		
 		$response = $this->generateLoginFormHTML($message);
@@ -93,13 +89,13 @@ class LoginView {
     return $_POST[self::$password];
   }
   
-  public function getUsername() {
-    return $this->getRequestUserName();
-  }
+  // public function getUsername() {
+  //   return $this->getRequestUserName();
+  // }
 
-  public function getPassword() {
-    return $this->getRequestPassword();
-  }
+  // public function getPassword() {
+  //   return $this->getRequestPassword();
+  // }
 
   private function userWantsToLogin () {
     if(isset($_POST[self::$login])) {
@@ -120,5 +116,24 @@ class LoginView {
       return true;
     }
     return false;
+  }
+
+  private function checkInput () {
+    $uname = $this->getRequestUserName();
+    $pword = $this->getRequestPassword();
+
+    if($uname == '') {
+      return 'Username is missing';
+    }
+
+    if($pword == '') {
+      return 'Password is missing';
+    }
+
+    $user = new User('Admin', '123');
+    if(!$user->authentication($uname, $pword)) {
+      return 'Wrong name or password';
+    }
+    return 'Logged In <3';
   }
 }
