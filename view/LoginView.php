@@ -22,7 +22,11 @@ class LoginView {
 	public function response() {
     $message = '';
 
-    if(isset($_POST[self::$login]) && !$this->userFilledInUserName()) {
+    if($this->userWantsToLogin() && !$this->userFilledInPassword()) {
+      $message = 'Password is missing';
+    }
+
+    if($this->userWantsToLogin() && !$this->userFilledInUserName()) {
       $message = 'Username is missing';
     }
 		
@@ -51,6 +55,13 @@ class LoginView {
 	* @return  void, BUT writes to standard output!
 	*/
 	private function generateLoginFormHTML($message) {
+
+    $username = '';
+
+    if($this->userWantsToLogin ()){
+      $username = $this->getRequestUserName();
+    }
+
 		return '
 			<form method="post" > 
 				<fieldset>
@@ -58,7 +69,7 @@ class LoginView {
 					<p id="' . self::$messageId . '">' . $message . '</p>
 					
 					<label for="' . self::$name . '">Username :</label>
-					<input type="text" id="' . self::$name . '" name="' . self::$name . '" value="" />
+					<input type="text" id="' . self::$name . '" name="' . self::$name . '" value="' . $username . '" />
 
 					<label for="' . self::$password . '">Password :</label>
 					<input type="password" id="' . self::$password . '" name="' . self::$password . '" />
@@ -78,12 +89,26 @@ class LoginView {
     return $_POST[self::$name];
   }
   
-  public function getUsername() {
+  private function getUsername() {
     return $this->getRequestUserName();
   }
 
-  public function userFilledInUserName () {
+  private function userWantsToLogin () {
+    if(isset($_POST[self::$login])) {
+      return true;
+    }
+    return false;
+  }
+
+  private function userFilledInUserName () {
     if(!empty($_POST[self::$name])) {
+      return true;
+    }
+    return false;
+  }
+
+  private function userFilledInPassword () {
+    if(!empty($_POST[self::$password])) {
       return true;
     }
     return false;
