@@ -27,7 +27,6 @@ class LoginView {
     $response = '';
 
     if($isLoggedIn) {
-      $this->message = 'Welcome';
       $response .= $this->generateLogoutButtonHTML($this->message);
     } else {
       $response = $this->generateLoginFormHTML($this->message);
@@ -103,6 +102,13 @@ class LoginView {
 
   public function userWantsToLogin () {
     if(isset($_POST[self::$login])) {
+      return true;
+    }
+    return false;
+  }
+
+  public function userWantsToLogout () {
+    if(isset($_POST[self::$logout])) {
       return true;
     }
     return false;

@@ -12,12 +12,13 @@ class UserStorage {
     $this->phpObj = json_decode($this->jsonData);
   }
 
-  private function findUserByUsername ($uname) {
+  public function findUserByUsername ($uname) {
     for ($i = 0; $i < sizeof($this->phpObj); $i++) {
       if($this->phpObj[$i]->username === $uname){
         return $this->phpObj[$i];
       }
     }
+    return false;
   }
 
   public function authAUser ($creds) {
