@@ -10,7 +10,5 @@ class RegisterController {
   public function __construct ($v, $us) {
     $this->registerView = $v;
     $this->userStorage = $us;
-
-    $this->registerView->setMessage('');
   }
 }
