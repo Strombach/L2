@@ -16,8 +16,10 @@ class LoginController {
     if($this->loginView->userWantsToLogin()) {
       if($this->userStorage->authAUser($this->loginView->getUserCredentials())) {
         return true;
+      } else {
+        $this->loginView->message = 'Wrong name or password';
+        return false;
       }
-      return false;
     }
   }
 }

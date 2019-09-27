@@ -29,6 +29,8 @@ class UserStorage {
       } else {
         return false;
       }
+    } else {
+      return false;
     }
   }
 }

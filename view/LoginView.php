@@ -10,7 +10,7 @@ class LoginView {
 	private static $keep = 'LoginView::KeepMeLoggedIn';
   private static $messageId = 'LoginView::Message';	
 
-  public $aMessage = '';
+  public $message = '';
 
 	/**
 	 * Create HTTP response
@@ -20,19 +20,17 @@ class LoginView {
 	 * @return  void BUT writes to standard output and cookies!
 	 */
 	public function response($isLoggedIn) {
-    $message = $this->aMessage;
-
-    if($this->userWantsToLogin()) {
-      $message = $this->checkInput();
+      if($this->userWantsToLogin()) {
+      $this->checkInput();
     }
     
     $response = '';
 
     if($isLoggedIn) {
-      $message = 'Welcome';
-      $response .= $this->generateLogoutButtonHTML($message);
+      $this->message = 'Welcome';
+      $response .= $this->generateLogoutButtonHTML($this->message);
     } else {
-      $response = $this->generateLoginFormHTML($message);
+      $response = $this->generateLoginFormHTML($this->message);
     }
 		return $response;
 	}
@@ -114,13 +112,16 @@ class LoginView {
     $uname = $this->getRequestUserName();
     $pword = $this->getRequestPassword();
 
-    if($uname == '') {
-      return 'Username is missing';
+    if($pword == ''|| empty($pword)) {
+      $this->setMessage('Password is missing');
     }
 
-    if($pword == '') {
-      return 'Password is missing';
+    if($uname == '' || empty($uname)) {
+      $this->setMessage('Username is missing');
     }
-    return '';
+  }
+
+  public function setMessage ($newMessage) {
+    $this->message = $newMessage;
   }
 }
