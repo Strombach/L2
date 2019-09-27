@@ -28,6 +28,7 @@ class LoginView {
 
     if($isLoggedIn) {
       $response .= $this->generateLogoutButtonHTML($this->message);
+      $_SESSION["showBye"] = false;
     } else {
       $response = $this->generateLoginFormHTML($this->message);
     }

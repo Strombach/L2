@@ -18,7 +18,14 @@ class LoginController {
     if($this->loginView->userWantsToLogin()) {
       if($this->userStorage->authAUser($this->loginView->getUserCredentials())) {
         $_SESSION["loggedIn"] = true;
-        $this->loginView->setMessage('Welcome');
+
+        if(isset($_SESSION["showWelcome"])) {
+          if($_SESSION["showWelcome"] == false){
+            $this->showWelcome();
+          }
+        } else {
+          $this->showWelcome();
+        }
         return true;
       } else {
         $this->loginView->setMessage('Wrong name or password');
@@ -30,7 +37,22 @@ class LoginController {
   public function doLogout(){
     if($this->loginView->userWantsToLogout() && $_SESSION["loggedIn"] = true) {
       unset($_SESSION["loggedIn"]);
-      $this->loginView->setMessage('Bye bye!');
+      if(isset($_SESSION["showBye"])) {
+        if($_SESSION["showBye"] == false){
+          $this->showBye();
+        }
+      }
+      $_SESSION["showWelcome"] = false;
     }
+  }
+
+  private function showWelcome() {
+    $this->loginView->setMessage('Welcome');
+    $_SESSION["showWelcome"] = true;
+  }
+
+  private function showBye () {
+    $this->loginView->setMessage('Bye bye!');
+    $_SESSION["showBye"] = true;
   }
 }
