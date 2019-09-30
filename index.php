@@ -32,9 +32,9 @@ $rnu = 'Register a new user';
 
 $loginStatus = false;
 
-if($lc->doLogout()) {
+if($lc->doLogoutUser()) {
   $loginStatus = false;
-} else if ($lc->doLogin() || isset($_SESSION["loggedIn"])) {
+} else if ($lc->doLoginUser() || isset($_SESSION["loggedIn"])) {
   $loginStatus = true;
 }
 

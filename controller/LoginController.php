@@ -9,23 +9,18 @@ class LoginController {
   private $loginView;
   private $userStorage;
 
-  public function __construct ($v, $us) {
-    $this->loginView = $v;
-    $this->userStorage = $us;
+  public function __construct ($loginView, $userStorage) {
+    $this->loginView = $loginView;
+    $this->userStorage = $userStorage;
   }
 
-  public function doLogin() {
+  public function doLoginUser() {
+
     if($this->loginView->userWantsToLogin()) {
+      // Check if user use correct credentials.
       if($this->userStorage->authAUser($this->loginView->getUserCredentials())) {
         $_SESSION["loggedIn"] = true;
-
-        if(isset($_SESSION["showWelcome"])) {
-          if($_SESSION["showWelcome"] == false){
-            $this->showWelcome();
-          }
-        } else {
-          $this->showWelcome();
-        }
+        $this->shouldWelcomeShow();
         return true;
       } else {
         $this->loginView->setMessage('Wrong name or password');
@@ -34,7 +29,7 @@ class LoginController {
     }
   }
 
-  public function doLogout(){
+  public function doLogoutUser(){
     if($this->loginView->userWantsToLogout() && $_SESSION["loggedIn"] = true) {
       unset($_SESSION["loggedIn"]);
       if(isset($_SESSION["showBye"])) {
@@ -42,6 +37,7 @@ class LoginController {
           $this->showBye();
         }
       }
+      // Reset showWelcome to false to remove the messege when user login again.
       $_SESSION["showWelcome"] = false;
     }
   }
@@ -54,5 +50,15 @@ class LoginController {
   private function showBye () {
     $this->loginView->setMessage('Bye bye!');
     $_SESSION["showBye"] = true;
+  }
+
+  private function shouldWelcomeShow() {
+    if(isset($_SESSION["showWelcome"])) {
+      if($_SESSION["showWelcome"] == false){
+        $this->showWelcome();
+      }
+    } else {
+      $this->showWelcome();
+    }
   }
 }
