@@ -11,9 +11,9 @@ class RegisterView {
 
   public function response() {
 
-    if($this->userWantsToRegister()) {
-      $this->checkInput();
-    }
+    // if($this->userWantsToRegister()) {
+    //   $this->checkInput();
+    // }
 
     $response = $this->generateRegisterFormHTML();
     return $response;
@@ -24,7 +24,7 @@ class RegisterView {
     $username = '';
 
     if($this->userWantsToRegister ()){
-      $username = $this->getRequestUserName();
+      $username = strip_tags($this->getRequestUserName());
     }
 
     return ' 
@@ -64,6 +64,15 @@ class RegisterView {
     return $_POST[self::$passwordRepeat];
   }
 
+  public function getRequsetCredentials () {
+    $uname = new \model\Username($this->getRequestUserName());
+    $pword = new \model\Password($this->getRequestPassword());
+    $pwordRep = new \model\Password($this->getRequestPassword());
+
+    $credentials = array($uname->getUsername(), $pword->getPassword(), $pwordRep->getPassword());
+    return $credentials;
+  }
+
   public function userWantsToRegister () {
     if(isset($_POST["RegisterView::Register"])) {
       if($_POST["RegisterView::Register"] == 'Register'){
@@ -77,21 +86,35 @@ class RegisterView {
     $this->message .= $newMessage;
   }
 
-  private function checkInput () {
+  public function checkInput () {
+    $errors = 0;
+
     $uname = $this->getRequestUserName();
     $pword = $this->getRequestPassword();
     $pwordRep = $this->getRequestPasswordRepeat();
 
+    $strippedUN = strip_tags($uname);
+
     if($uname == '' || empty($uname) || strlen($uname) < 3) {
       $this->setMessage('Username has too few characters, at least 3 characters. <br>');
+      $errors += 1;
+    }
+
+    if($uname != $strippedUN) {
+      $this->setMessage('Username contains invalid characters. <br>');
+      $errors += 1;
     }
 
     if($pword == ''|| empty($pword) || strlen($pword) < 6) {
       $this->setMessage('Password has too few characters, at least 6 characters.<br>');
+      $errors += 1;
     }
 
     if($pword != $pwordRep) {
       $this->setMessage('Passwords do not match.');
+      $errors += 1;
     }
+
+    return $errors;
   }
 }

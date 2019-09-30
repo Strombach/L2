@@ -34,4 +34,8 @@ class UserStorage {
       return false;
     }
   }
+
+  public function saveUser ($newUser) {
+
+  }
 }
